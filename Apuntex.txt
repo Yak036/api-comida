@@ -51,3 +51,17 @@ En este curso se realizara una REST API para una pagina web, la api tendra como 
   Crear tabla puente muchos a muchos (el nombre debe ser alfabeticamente y en singular)
   php artisan make:migration create_recipe_tag_table
 -----------------------------------
+
+
+////////////////////////
+inicio de proyecto
+Configurar los datos falsos y migraciones es delicado, hay muchos metodos y funciones que desconozco debo investigar mas al respecto
+
+con teste comando migras y activas los seeders
+php artisan migrate --seed
+
+
+/////////////////////////
+Recurso: representa al dato que quieres obtener de la base de datos, los recursos deben estar aislados no debes manipular lo que trae la DB desde el controllador
+creas los recursos con
+php artisan make:resource CategoryResource
