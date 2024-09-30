@@ -1,0 +1,53 @@
+// Concepto del curso
+En este curso se realizara una REST API para una pagina web, la api tendra como tematica la comida, podran ver ingredientes, comida, instrucciones para cocinar, imagenes y categorias, esta api tendra filtrado
+
+-> REST: Es un principio y convenciones para llevar una api de forma profesional mediante los metodos POST PUT DELETE GET
+
+  Temas a tratar:
+  - Uso de RESTFull
+  - Respuesta estandar
+  - Versionado de api
+  - inicio de sesion y autorizacion
+  - validacion de datos
+  - Organizacion de la logica
+  - Separacion de recursos
+  - Manejo adecuado de errores
+  - Documentacion y testing
+  - Paginacion
+
+// HTTP Status Codes
+  Nos da un spoiler de lo que paso con nuestra solicitud mediante codigos como 404, 200,100, etc...
+  2xx: Significa q todo va bien
+  3xx: Redirecciones correctas o incorrectas.(no sabes si esta bien o mal solo redirecciona)
+  4xx: Son los errores, hicimos algo mal.
+  5xx: El backend murio, pueden ser varias razones, varias solicitudes o servidor caido.
+  ////////////////////////////
+    1XX Respuestas Afirmativas
+    2XX Respuestas satisfactorias
+    3XX Re-direcciones
+    4XX Error del cliente
+    5XX Error de servidor
+  ////////////////////////////
+
+-> Que son los metodos HTTP?
+  Son la forma en la que realizas una solicitud, desde el frontend al backend
+    -GET: Leer o visualizar
+    -POST: Crear datos
+    -PUT PATH: Editar datos, todos los registros o un registro en especifico
+    -DELETE: Eliminar datos.
+
+
+    ///////////////////////////////
+      Inicio de proyecto
+    ///////////////////////////////
+
+-------------------------------------
+  Con este comando inicializas con una version en especifico
+  composer create-project laravel/laravel:^10.2.4
+  
+  Crear el model, migraciones y Factories.
+  php artisan make:model Category -mf
+
+  Crear tabla puente muchos a muchos (el nombre debe ser alfabeticamente y en singular)
+  php artisan make:migration create_recipe_tag_table
+-----------------------------------
