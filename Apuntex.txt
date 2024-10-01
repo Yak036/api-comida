@@ -111,3 +111,6 @@ Autenticacion && autorizacion
 La autentificacion verifica quien eres y verifica tus credenciales
 
 La autorizacion gestiona permisos
+
+para las autentificaciones usas el mismo recurso del curso pasado sanctum
+sudo composer require laravel/sanctum

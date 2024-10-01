@@ -25,13 +25,25 @@ class RecipeController extends Controller
     public function store(StoreRecipeRequest $request){
 
         
-        //? vas a crear el recipe y devolveras la respuesta de todo lo que creaste
-        $recipe = Recipe::create($request->all());
-        // ? vamos a recibir las etiquetas, las pasaremos a formato JSON
-        if ($tags = json_decode($request->tags)) {
-            // ? Se le agrega (attach()) las etiquetas al recipe que creamos
-            $recipe->tags()->attach($tags);
-        }
+        //* viejo: vas a crear el recipe y devolveras la respuesta de todo lo que creaste
+        //? nuevo: vas a localizar al user logeado y ubicaras sus recipes y crearas uno nuevo
+        
+        $recipe = $request->user()->recipes()->create($request->all());
+
+        $recipe->tags()->attach(json_decode($request->tags));
+
+        // ! validacion de archivo img
+        $recipe->image = $request->file('image')->store('recipes', 'public');
+        $recipe->save();
+        
+        
+        // // ? vamos a recibir las etiquetas, las pasaremos a formato JSON
+        // if ($tags = json_decode($request->tags)) {
+            
+        //     // ? Se le agrega (attach()) las etiquetas al recipe que creamos
+        //     $recipe->tags()->attach($tags);
+        // }
+        
         //? devuelves la respuesta junto a su estado HTTP, debes importar use 
         //? Symfony\Component\HttpFoundation\Response; 
         //? para las respuestas HTTP
@@ -43,7 +55,10 @@ class RecipeController extends Controller
         return new RecipesResource($recipe);
     }
 
-    public function update(UpdateRecipeRequest $recipe, Request $request){
+    public function update(UpdateRecipeRequest $request, Request $recipe){
+        $this->authorize('update', $recipe);
+
+
         //? vas a Actualizar con update
         $recipe->update($request->all());
 
@@ -55,10 +70,20 @@ class RecipeController extends Controller
         //? devuelves la respuesta junto a su estado HTTP, debes importar use 
         //? Symfony\Component\HttpFoundation\Response; 
         //? para las respuestas HTTP
+
+        // ! No se p esta baina no funciona
+        // if ($request->file('image')) {
+        //     // ! validacion de archivo img
+        //     $recipe->image = $request->file('image')->store('recipes', 'public');
+        //     $recipe->save();
+        // }
+
         return response()->json(new RecipesResource($recipe), Response::HTTP_OK);// http 200
     }
 
     public function destroy(Recipe $recipe){
+        $this->authorize('delete', $recipe);
+
         $recipe->delete();
 
         return response()->json(null, Response::HTTP_NO_CONTENT); //204
