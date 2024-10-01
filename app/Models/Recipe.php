@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Recipe extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'category_id',
+        'user_id',
+        'title',
+        'description',
+        'ingredients',
+        'instructions',
+        'image',
+    ];
+
 
     public function category(){
         // ? esto es para la relacion muchos a muchos

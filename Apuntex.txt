@@ -62,6 +62,52 @@ php artisan migrate --seed
 
 
 /////////////////////////
-Recurso: representa al dato que quieres obtener de la base de datos, los recursos deben estar aislados no debes manipular lo que trae la DB desde el controllador
+Recurso: representa al dato que quieres obtener de la base de datos, los recursos deben estar aislados no debes manipular lo que trae la DB desde el controllador pueden traer datos de multiples tablas
 creas los recursos con
 php artisan make:resource CategoryResource
+
+los Collection traen los datos de una unica tabla
+
+
+
+Recursos anidados, puedes combinar recursos, digamos que tienes una relacion de tags y dentro de esta la relacion con las recipes, puedes importar el recurso de recipes y usarlo para llamar a recipes con el mismo formato
+
+/////////////////////////////////
+Probar si el codigo esta bien: una libreria de laravel se encarga de esto
+
+con esto la descargas
+sudo composer require laravel/telescope
+
+Y con esto la installas
+php artisan telescope:install
+
+para obtimizar el codigo es bueno que en el controlador a la hora de retornar especifiques con que tabla vas a trabajar 
+
+public function index(){
+        //? se usa all() para traerlo todo y get() para algo mas personalizado
+        return RecipesResource::collection(Recipe::with('category','tags','user')->get());
+    }
+
+///////////////////////////////
+Creacion de datos
+///////////////////////////
+public function store(Request $request){
+    //? vas a crear el recipe y devolveras la respuesta de todo lo que creaste
+    $recipe = Recipe::create($request->all());
+
+    //? devuelves la respuesta junto a su estado HTTP, debes importar use 
+    //? Symfony\Component\HttpFoundation\Response; 
+    //? para las respuestas HTTP
+    return response()->json(new RecipesResource($recipe), Response::HTTP_CREATED);// http 201
+}
+\
+Al momento de hacer validaciones de formularios usas este comando
+ php artisan make:request StoreRecipeRequest
+especificas que metodo va a afectar en el nombre, el nombre del modelo y Request
+Dentro de ese archivo cambias el authorized de True a False
+
+///////////////////////////
+Autenticacion && autorizacion
+La autentificacion verifica quien eres y verifica tus credenciales
+
+La autorizacion gestiona permisos
